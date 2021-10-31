@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html,
+#root {
+    height: 100%;
+}
+
+:root {
+    font-size: 16px;
+    --x-padding: 1.5rem;
+    --bottom-margin: 2rem;
+    --input-padding: 1.5rem 3rem 1.5rem 6.5rem;
+    --border-radius: .5rem;
+    --input-font-size: .9rem;
+}
+
+body {
+    background: var(--bg-app);
+    font-family: var(--main-font);
+    line-height: 1.8;
+}
+
+h1 {
+    color: var(--text-color);
+}
+
+.main_content {
+    padding-left: var(--x-padding);
+    padding-right: var(--x-padding);
+}
+
+@media screen and (min-width: 640px) {}

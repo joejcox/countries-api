@@ -1,0 +1,16 @@
+.theme_button {
+    display: flex;
+    align-items: center;
+    background: var(--bg-elements);
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 1.05rem;
+}
+
+.theme_button svg {
+    margin-right: .75rem;
+    margin-top: -.05rem;
+}
+
+@media screen and (min-width: 640px) {}

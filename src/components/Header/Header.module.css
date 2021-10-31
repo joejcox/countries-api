@@ -1,0 +1,18 @@
+.site_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem var(--x-padding);
+    box-shadow: var(--header-shadow);
+    background: var(--bg-elements);
+    margin-bottom: var(--bottom-margin);
+    font-size: 1.1rem;
+}
+
+.logo a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 800;
+}
+
+@media screen and (min-width: 640px) {}
