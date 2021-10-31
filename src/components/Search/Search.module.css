@@ -10,6 +10,7 @@
 }
 
 .search_icon {
+    pointer-events: none;
     position: absolute;
     left: calc(var(--x-padding) + 3rem);
 }
