@@ -1,6 +1,7 @@
 .filter_container {
     width: 60%;
     position: relative;
+    margin-bottom:var(--bottom-margin);
 }
 
 .filter_arrow {
