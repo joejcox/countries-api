@@ -5,10 +5,13 @@ import '../node_modules/bulma/css/bulma.min.css'
 import './assets/styles/index.css'
 import { BrowserRouter as Router } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
+import { HelmetProvider } from 'react-helmet-async'
 
 ReactDOM.render(
     <Router>
-        <App />
+        <HelmetProvider>
+            <App />
+        </HelmetProvider>
     </Router>,
     document.getElementById('root')
 )

@@ -1,30 +1,90 @@
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import CountryCard from '../CountryCard'
 import { countries } from './CountriesList.module.css'
 
-const CountriesList = () => {
-    const [countriesData, setCountriesData] = useState(false)
+const CountriesList = ({ searchValue, regionValue }) => {
+    const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [countriesData, setCountriesData] = useState([])
+    const [title, setTitle] = useState('Showing all countries')
+    const [helmetTitle, setHelmetTitle] = useState(
+        'Countries API | Showing all countries'
+    )
 
     useEffect(() => {
-        fetch('https://restcountries.com/v2/all')
-            .then((res) => res.json())
-            .then((data) => setCountriesData(data))
-    }, [])
+        const getCountries = async () => {
+            let res = await fetch('https://restcountries.com/v3.1/all')
+            let titleText = 'Showing all countries'
+            let siteTitle = 'Countries API | Showing all countries'
+            if (searchValue !== '') {
+                res = await fetch(
+                    `https://restcountries.com/v3.1/name/${searchValue}`
+                )
 
-    console.log(countriesData)
+                titleText = `Countries that match ${searchValue}`
+                siteTitle = `Search results: ${searchValue} | Countries API`
+            }
 
-    const showCountries = () =>
-        countriesData.map(({ name, alpha3Code }) => (
-            <CountryCard name={name} key={alpha3Code} />
-        ))
+            if (regionValue !== '') {
+                res = await fetch(
+                    `https://restcountries.com/v3.1/region/${regionValue}`
+                )
 
-    return (
-        <section className={`${countries} columns is-multiline`}>
-            {countriesData.length > 0
-                ? showCountries()
-                : 'No Countries To Display'}
-        </section>
-    )
+                siteTitle = `${regionValue} | Countries API`
+                titleText = `Countries in ${regionValue}`
+            }
+
+            const data = await res.json()
+
+            if (data.status) {
+                console.log(data)
+                setError(true)
+                return setErrorMessage(data.message)
+            }
+            setCountriesData(data)
+            setTitle(titleText)
+            setHelmetTitle(siteTitle)
+            setError(false)
+            setErrorMessage(null)
+            setLoading(false)
+        }
+
+        getCountries()
+
+        // return () => setLoading(true)
+    }, [searchValue, regionValue, title, helmetTitle])
+
+    const Content = () => {
+        if (error) {
+            return (
+                <div className="title is-2 theme-colour">
+                    Error: {errorMessage}
+                </div>
+            )
+        }
+
+        if (loading) {
+            return <div className="title is-2 theme-colour">Loading...</div>
+        }
+
+        return (
+            <>
+                <Helmet>
+                    <title>{helmetTitle}</title>
+                </Helmet>
+                <h1 className="title is-2 theme-colour">{title}</h1>
+                <section className={`${countries} columns is-multiline`}>
+                    {countriesData.map((country) => (
+                        <CountryCard {...country} key={country.ccn3} />
+                    ))}
+                </section>
+            </>
+        )
+    }
+
+    return <Content />
 }
 
 export default CountriesList
